@@ -22,10 +22,13 @@ public class OrayaCameraManager : MonoBehaviour
     [SerializeField] CinemachineCamera closeCombatCamera;
     [SerializeField] Renderer[] hiddenInFirstPerson;
     [SerializeField] int livePriority = 20;
+    [SerializeField] int cinematicPriority = 30;
     [SerializeField] float firstPersonPitch = 0f;
 
     Mode mode = Mode.ThirdPerson;
     bool ready;
+    bool cinematicLocked;
+    CinemachineCamera entryCinematicCamera;
 
     void Awake()
     {
@@ -47,6 +50,9 @@ public class OrayaCameraManager : MonoBehaviour
     void Update()
     {
 #if ENABLE_INPUT_SYSTEM
+        if (cinematicLocked)
+            return;
+
         Keyboard keyboard = Keyboard.current;
         if (keyboard == null)
             return;
@@ -62,6 +68,8 @@ public class OrayaCameraManager : MonoBehaviour
 
     public Mode CurrentMode => mode;
 
+    public bool IsEntryCinematicPlaying => cinematicLocked;
+
     /// <summary>
     /// The gameplay camera the player last chose. A later interaction camera can
     /// override the brain with a higher priority, then call this to come back.
@@ -71,9 +79,40 @@ public class OrayaCameraManager : MonoBehaviour
         Apply(mode);
     }
 
+    /// <summary>
+    /// Plays the entry cinematic above the gameplay cameras. Camera 1 stays the selected gameplay mode.
+    /// </summary>
+    public void BeginEntryCinematic(CinemachineCamera cinematic)
+    {
+        entryCinematicCamera = cinematic;
+        cinematicLocked = true;
+        if (cinematic != null)
+        {
+            cinematic.Priority = cinematicPriority;
+            cinematic.Prioritize();
+        }
+
+        Apply(mode);
+    }
+
+    /// <summary>
+    /// Drops the entry cinematic so the brain can blend back to Camera 1.
+    /// </summary>
+    public void EndEntryCinematic()
+    {
+        cinematicLocked = false;
+        if (entryCinematicCamera != null)
+        {
+            entryCinematicCamera.Priority = 0;
+            entryCinematicCamera.Prioritize();
+        }
+
+        Apply(mode);
+    }
+
     public void SetMode(Mode next)
     {
-        if (next == mode)
+        if (cinematicLocked || next == mode)
             return;
 
         if (next == Mode.FirstPerson)
@@ -106,7 +145,7 @@ public class OrayaCameraManager : MonoBehaviour
 
         var input = camera.GetComponent<CinemachineInputAxisController>();
         if (input != null)
-            input.enabled = live;
+            input.enabled = live && !cinematicLocked;
     }
 
     void SetFirstPersonMeshesVisible(bool visible)

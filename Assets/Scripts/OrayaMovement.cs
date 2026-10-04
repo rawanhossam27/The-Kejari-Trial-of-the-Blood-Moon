@@ -22,6 +22,11 @@ public class OrayaMovement : MonoBehaviour
     float verticalVelocity;
     bool running;
 
+    /// <summary>
+    /// When false, movement and run input are ignored. Gravity still holds her on the ground.
+    /// </summary>
+    public bool InputEnabled { get; set; } = true;
+
     void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -32,8 +37,8 @@ public class OrayaMovement : MonoBehaviour
 
     void Update()
     {
-        Vector3 move = ReadCameraRelativeDirection();
-        running = move.sqrMagnitude > 0.0001f && IsRunHeld();
+        Vector3 move = InputEnabled ? ReadCameraRelativeDirection() : Vector3.zero;
+        running = InputEnabled && move.sqrMagnitude > 0.0001f && IsRunHeld();
         if (move.sqrMagnitude > 0.0001f)
             RotateToward(move);
 
