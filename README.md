@@ -2,7 +2,7 @@
 
 A dark-fantasy arena environment built in **Unity 6** (URP). A condemned assassin, **Oraya**, stands in a sealed ritual ring under a blood moon — cobbled floor, iron gates, crescent banners, gargoyles, and firelight.
 
-![Blood Moon arena](Assets/Screenshots/oraya_lit.png)
+![Blood Moon arena](docs/arena-preview.png)
 
 ## Open the project
 

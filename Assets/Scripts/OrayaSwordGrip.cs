@@ -61,7 +61,33 @@ public class OrayaSwordGrip : MonoBehaviour
         _handL = _lowerL != null ? _lowerL.Find("hand_l") : null;
     }
 
-    void LateUpdate() => Apply();
+    static readonly int SpeedId = Animator.StringToHash("Speed");
+
+    void LateUpdate()
+    {
+        if (IsLocomoting())
+            return;
+
+        Apply();
+    }
+
+    bool IsLocomoting()
+    {
+        if (!Application.isPlaying)
+            return false;
+
+        var animator = GetComponent<Animator>();
+        if (animator == null || animator.runtimeAnimatorController == null)
+            return false;
+
+        foreach (var parameter in animator.parameters)
+        {
+            if (parameter.nameHash == SpeedId && parameter.type == AnimatorControllerParameterType.Float)
+                return animator.GetFloat(SpeedId) > 0.08f;
+        }
+
+        return false;
+    }
 
     void Apply()
     {
