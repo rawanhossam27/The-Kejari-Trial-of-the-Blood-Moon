@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 public class OrayaMovement : MonoBehaviour
 {
     [SerializeField, Min(0f)] float moveSpeed = 4f;
+    [SerializeField, Min(0f)] float runSpeed = 7f;
     [SerializeField, Min(0f)] float rotationSpeed = 540f;
     [SerializeField, Min(0f)] float animationDampTime = 0.12f;
 
@@ -19,6 +20,7 @@ public class OrayaMovement : MonoBehaviour
     CharacterController controller;
     Animator animator;
     float verticalVelocity;
+    bool running;
 
     void Awake()
     {
@@ -31,6 +33,7 @@ public class OrayaMovement : MonoBehaviour
     void Update()
     {
         Vector3 move = ReadCameraRelativeDirection();
+        running = move.sqrMagnitude > 0.0001f && IsRunHeld();
         if (move.sqrMagnitude > 0.0001f)
             RotateToward(move);
 
@@ -95,7 +98,8 @@ public class OrayaMovement : MonoBehaviour
         else
             verticalVelocity += Physics.gravity.y * Time.deltaTime;
 
-        Vector3 velocity = worldDirection * moveSpeed;
+        float speed = running ? runSpeed : moveSpeed;
+        Vector3 velocity = worldDirection * speed;
         velocity.y = verticalVelocity;
         controller.Move(velocity * Time.deltaTime);
     }
@@ -107,7 +111,28 @@ public class OrayaMovement : MonoBehaviour
 
         Vector3 horizontal = controller.velocity;
         horizontal.y = 0f;
-        float normalized = moveSpeed > 0.01f ? horizontal.magnitude / moveSpeed : 0f;
-        animator.SetFloat(SpeedId, normalized, animationDampTime, Time.deltaTime);
+        float animatorSpeed = 0f;
+        if (horizontal.sqrMagnitude > 0.0025f)
+        {
+            if (running && runSpeed > 0.01f)
+                animatorSpeed = 1f + Mathf.Clamp01(horizontal.magnitude / runSpeed);
+            else if (moveSpeed > 0.01f)
+                animatorSpeed = Mathf.Clamp01(horizontal.magnitude / moveSpeed);
+        }
+
+        animator.SetFloat(SpeedId, animatorSpeed, animationDampTime, Time.deltaTime);
+    }
+
+    static bool IsRunHeld()
+    {
+#if ENABLE_INPUT_SYSTEM
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard != null && (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed))
+            return true;
+#elif ENABLE_LEGACY_INPUT_MANAGER
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            return true;
+#endif
+        return false;
     }
 }
