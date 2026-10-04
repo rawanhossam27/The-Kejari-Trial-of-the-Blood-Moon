@@ -6,18 +6,20 @@ using UnityEngine.InputSystem;
 
 /// <summary>
 /// Switches Oraya between Cinemachine cameras. Third person is the default.
-/// Close-combat (3) and cinematic cameras can be added later without changing movement.
+/// An interaction camera can later take a higher priority, then call RestoreGameplayCamera.
 /// </summary>
 public class OrayaCameraManager : MonoBehaviour
 {
     public enum Mode
     {
         ThirdPerson = 1,
-        FirstPerson = 2
+        FirstPerson = 2,
+        CloseCombat = 3
     }
 
     [SerializeField] CinemachineCamera thirdPersonCamera;
     [SerializeField] CinemachineCamera firstPersonCamera;
+    [SerializeField] CinemachineCamera closeCombatCamera;
     [SerializeField] Renderer[] hiddenInFirstPerson;
     [SerializeField] int livePriority = 20;
     [SerializeField] float firstPersonPitch = 0f;
@@ -53,10 +55,21 @@ public class OrayaCameraManager : MonoBehaviour
             SetMode(Mode.ThirdPerson);
         else if (keyboard.digit2Key.wasPressedThisFrame || keyboard.numpad2Key.wasPressedThisFrame)
             SetMode(Mode.FirstPerson);
+        else if (keyboard.digit3Key.wasPressedThisFrame || keyboard.numpad3Key.wasPressedThisFrame)
+            SetMode(Mode.CloseCombat);
 #endif
     }
 
     public Mode CurrentMode => mode;
+
+    /// <summary>
+    /// The gameplay camera the player last chose. A later interaction camera can
+    /// override the brain with a higher priority, then call this to come back.
+    /// </summary>
+    public void RestoreGameplayCamera()
+    {
+        Apply(mode);
+    }
 
     public void SetMode(Mode next)
     {
@@ -66,7 +79,9 @@ public class OrayaCameraManager : MonoBehaviour
         if (next == Mode.FirstPerson)
             AlignFirstPersonToView();
         else if (next == Mode.ThirdPerson)
-            AlignThirdPersonBehindView();
+            AlignOrbitalBehindView(thirdPersonCamera);
+        else if (next == Mode.CloseCombat)
+            AlignOrbitalBehindView(closeCombatCamera);
 
         mode = next;
         Apply(next);
@@ -74,10 +89,10 @@ public class OrayaCameraManager : MonoBehaviour
 
     void Apply(Mode next)
     {
-        bool firstPerson = next == Mode.FirstPerson;
-        SetLive(thirdPersonCamera, !firstPerson);
-        SetLive(firstPersonCamera, firstPerson);
-        SetFirstPersonMeshesVisible(!firstPerson);
+        SetLive(thirdPersonCamera, next == Mode.ThirdPerson);
+        SetLive(firstPersonCamera, next == Mode.FirstPerson);
+        SetLive(closeCombatCamera, next == Mode.CloseCombat);
+        SetFirstPersonMeshesVisible(next != Mode.FirstPerson);
     }
 
     void SetLive(CinemachineCamera camera, bool live)
@@ -132,15 +147,15 @@ public class OrayaCameraManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Keeps the existing orbit radius and pitch, and turns the orbit yaw
-    /// to sit behind the current view so the blend pulls back along the look direction.
+    /// Keeps the orbit radius and pitch, and turns the orbit yaw to sit behind
+    /// the current view so the blend pulls back along the look direction.
     /// </summary>
-    void AlignThirdPersonBehindView()
+    static void AlignOrbitalBehindView(CinemachineCamera camera)
     {
-        if (thirdPersonCamera == null)
+        if (camera == null)
             return;
 
-        var orbital = thirdPersonCamera.GetComponent<CinemachineOrbitalFollow>();
+        var orbital = camera.GetComponent<CinemachineOrbitalFollow>();
         Camera view = Camera.main;
         if (orbital == null || view == null)
             return;
