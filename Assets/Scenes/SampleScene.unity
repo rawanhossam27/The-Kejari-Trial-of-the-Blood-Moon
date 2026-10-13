@@ -3017,6 +3017,7 @@ GameObject:
   - component: {fileID: 136811773}
   - component: {fileID: 136811775}
   - component: {fileID: 136811774}
+  - component: {fileID: 136811776}
   m_Layer: 0
   m_Name: MoonSword_Light
   m_TagString: Untagged
@@ -3127,6 +3128,23 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &136811776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136811772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0efbc92bd12bc1645941802730c6d2a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swordLight: {fileID: 136811775}
+  startEnabled: 1
+  fadeDuration: 0.15
+  glowParticles: {fileID: 1622821229}
+  toggleGlow: 1
 --- !u!1 &137932376
 GameObject:
   m_ObjectHideFlags: 0
@@ -54021,8 +54039,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292716364}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.04791123, y: 0, z: 0, w: 0.9988516}
+  m_LocalPosition: {x: 0, y: 3.2, z: -18.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -66872,6 +66890,11 @@ Transform:
 --- !u!4 &1622821228 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4429267120260576, guid: ec413a0fd2a940f4d9475a8299d85f9c, type: 3}
+  m_PrefabInstance: {fileID: 1622821226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1622821229 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198886238429930980, guid: ec413a0fd2a940f4d9475a8299d85f9c, type: 3}
   m_PrefabInstance: {fileID: 1622821226}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1624934956
