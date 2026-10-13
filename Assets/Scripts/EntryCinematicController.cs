@@ -18,6 +18,7 @@ public class EntryCinematicController : MonoBehaviour
     [SerializeField] AnimationCurve progress = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
     [SerializeField, Min(0f)] float skipBlendTime = 0.35f;
 
+    bool externallyDriven;
     bool playing;
     bool waitingForBlend;
     bool sawBlend;
@@ -26,6 +27,28 @@ public class EntryCinematicController : MonoBehaviour
     CinemachineBlendDefinition savedBlend;
 
     public bool IsPlaying => playing || waitingForBlend;
+
+    /// <summary>
+    /// The entry sequence drives the spline. This controller still owns the camera and the gameplay handoff.
+    /// </summary>
+    public void SetExternallyDriven(bool driven)
+    {
+        externallyDriven = driven;
+    }
+
+    public void SetPathProgress(float normalized)
+    {
+        if (dolly != null)
+            dolly.CameraPosition = Mathf.Clamp01(normalized);
+    }
+
+    public void RequestFinish(bool skipped)
+    {
+        if (skipped)
+            SkipToGameplay();
+        else
+            Finish(false);
+    }
 
     void Awake()
     {
@@ -43,13 +66,13 @@ public class EntryCinematicController : MonoBehaviour
 
     void Update()
     {
-        if (playing && SkipPressed())
+        if (playing && !externallyDriven && SkipPressed())
         {
-            Skip();
+            SkipToGameplay();
             return;
         }
 
-        if (!playing)
+        if (!playing || externallyDriven)
             return;
 
         float durationSafe = Mathf.Max(0.1f, duration);
@@ -77,10 +100,9 @@ public class EntryCinematicController : MonoBehaviour
             RestoreGameplay();
     }
 
-    void Skip()
+    void SkipToGameplay()
     {
-        if (dolly != null)
-            dolly.CameraPosition = 1f;
+        SetPathProgress(1f);
 
         var brain = CinemachineBrain.GetActiveBrain(0);
         if (brain != null)

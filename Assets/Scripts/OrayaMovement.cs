@@ -21,11 +21,45 @@ public class OrayaMovement : MonoBehaviour
     Animator animator;
     float verticalVelocity;
     bool running;
+    Vector3 cinematicDirection;
 
     /// <summary>
     /// When false, movement and run input are ignored. Gravity still holds her on the ground.
     /// </summary>
     public bool InputEnabled { get; set; } = true;
+
+    /// <summary>
+    /// While true, WASD is ignored and she walks along the direction set by SetCinematicDirection.
+    /// </summary>
+    public bool CinematicMoveActive { get; private set; }
+
+    /// <summary>
+    /// Hands planar motion to the entry sequence. InputEnabled stays false until gameplay returns.
+    /// </summary>
+    public void BeginCinematicMove()
+    {
+        CinematicMoveActive = true;
+        InputEnabled = false;
+        cinematicDirection = Vector3.zero;
+    }
+
+    /// <summary>
+    /// Unit direction on the ground plane. Zero stops her while gravity remains.
+    /// </summary>
+    public void SetCinematicDirection(Vector3 planarDirection)
+    {
+        planarDirection.y = 0f;
+        cinematicDirection = planarDirection.sqrMagnitude > 1f ? planarDirection.normalized : planarDirection;
+    }
+
+    /// <summary>
+    /// Ends the scripted walk. Does not give back keyboard control.
+    /// </summary>
+    public void EndCinematicMove()
+    {
+        CinematicMoveActive = false;
+        cinematicDirection = Vector3.zero;
+    }
 
     void Awake()
     {
@@ -37,8 +71,10 @@ public class OrayaMovement : MonoBehaviour
 
     void Update()
     {
-        Vector3 move = InputEnabled ? ReadCameraRelativeDirection() : Vector3.zero;
-        running = InputEnabled && move.sqrMagnitude > 0.0001f && IsRunHeld();
+        Vector3 move = CinematicMoveActive
+            ? cinematicDirection
+            : (InputEnabled ? ReadCameraRelativeDirection() : Vector3.zero);
+        running = !CinematicMoveActive && InputEnabled && move.sqrMagnitude > 0.0001f && IsRunHeld();
         if (move.sqrMagnitude > 0.0001f)
             RotateToward(move);
 
