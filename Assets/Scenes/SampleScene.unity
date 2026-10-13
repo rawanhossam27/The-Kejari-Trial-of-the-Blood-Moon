@@ -67397,6 +67397,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1631028608}
+  - component: {fileID: 1631028609}
   m_Layer: 0
   m_Name: Exit_Mystic
   m_TagString: Untagged
@@ -67426,6 +67427,40 @@ Transform:
   - {fileID: 1803902790}
   m_Father: {fileID: 131963197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1631028609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631028607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f4e3032dc949044fa63c363aae6a73a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activationDuration: 4.5
+  targetLightIntensity: 1
+  pulseSpeed: 0.4
+  pulseStrength: 0.14
+  ringGlow: 1.65
+  lights:
+  - {fileID: 2052706145}
+  - {fileID: 1005043731}
+  runeRenderers:
+  - {fileID: 1224377667}
+  - {fileID: 1769859024}
+  - {fileID: 1153154631}
+  - {fileID: 2039030924}
+  - {fileID: 1303216491}
+  - {fileID: 2042272312}
+  - {fileID: 2086157030}
+  glowVolume: {fileID: 192408812}
+  particles:
+  - {fileID: 1759766402}
+  - {fileID: 1828948896}
+  - {fileID: 1803902792}
+  gateRings: []
 --- !u!1001 &1634382148
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94885,6 +94920,21 @@ MonoBehaviour:
   bloomThreshold: 0.74
   vignetteIntensity: 0.24
   vignetteColor: {r: 0.04, g: 0.02, b: 0.035, a: 1}
+  onAwakeningCompleted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1631028609}
+        m_TargetAssemblyTypeName: MysticExitController, Assembly-CSharp
+        m_MethodName: ActivateExit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1997919578
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -40,6 +42,7 @@ public class BloodMoonController : MonoBehaviour
     [SerializeField, Min(0f)] float bloomThreshold = 0.74f;
     [SerializeField, Range(0f, 1f)] float vignetteIntensity = 0.24f;
     [SerializeField] Color vignetteColor = new Color(0.04f, 0.02f, 0.035f, 1f);
+    [SerializeField] UnityEvent onAwakeningCompleted;
 
     static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
     static readonly int ColorId = Shader.PropertyToID("_Color");
@@ -60,9 +63,11 @@ public class BloodMoonController : MonoBehaviour
     float elapsed;
     bool running;
     bool started;
+    bool awakeningCompleted;
 
     public bool HasStarted => started;
     public float Progress => !started ? 0f : Mathf.Clamp01(elapsed / Mathf.Max(0.1f, duration));
+    public event Action AwakeningCompleted;
 
     void Awake()
     {
@@ -83,6 +88,7 @@ public class BloodMoonController : MonoBehaviour
         {
             Apply(1f);
             running = false;
+            CompleteAwakening();
         }
     }
 
@@ -95,6 +101,16 @@ public class BloodMoonController : MonoBehaviour
         running = true;
         elapsed = 0f;
         Apply(0f);
+    }
+
+    void CompleteAwakening()
+    {
+        if (awakeningCompleted)
+            return;
+
+        awakeningCompleted = true;
+        AwakeningCompleted?.Invoke();
+        onAwakeningCompleted?.Invoke();
     }
 
     void ResolveReferences()
