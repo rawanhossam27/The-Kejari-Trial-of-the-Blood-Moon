@@ -40774,7 +40774,19 @@ MonoBehaviour:
       m_Calls: []
   onEntryCompleted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1995326108}
+        m_TargetAssemblyTypeName: BloodMoonController, Assembly-CSharp
+        m_MethodName: ActivateBloodMoon
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1013677193 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 370655023619352404, guid: 63bddb9a580692a40ad99b5e9e7d828e, type: 3}
@@ -94814,6 +94826,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1995326107}
+  - component: {fileID: 1995326108}
   m_Layer: 0
   m_Name: Blood_Moon
   m_TagString: Untagged
@@ -94838,6 +94851,40 @@ Transform:
   - {fileID: 1861806222}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1995326108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995326106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cc09ba97505244fa987c99959cb968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 12
+  moonDisc: {fileID: 684912407}
+  moonHalo: {fileID: 1861806223}
+  awakenedDiscColor: {r: 1.22, g: 0.42, b: 0.32, a: 1}
+  awakenedHaloColor: {r: 0.82, g: 0.24, b: 0.18, a: 0.34}
+  haloScaleMultiplier: 1.05
+  directionalLight: {fileID: 410087040}
+  awakenedLightColor: {r: 0.76, g: 0.7, b: 0.88, a: 1}
+  awakenedLightIntensity: 1.72
+  awakenedFogColor: {r: 0.09, g: 0.078, b: 0.12, a: 1}
+  awakenedFogDensity: 0.0049
+  awakenedAmbientIntensity: 1.32
+  colorFilter: {r: 1, g: 0.96, b: 0.97, a: 1}
+  hueShift: 12
+  postExposure: -0.05
+  contrast: 2
+  saturation: -4
+  bloomIntensity: 0.4
+  bloomTint: {r: 1, g: 0.9, b: 0.92, a: 1}
+  bloomThreshold: 0.74
+  vignetteIntensity: 0.24
+  vignetteColor: {r: 0.04, g: 0.02, b: 0.035, a: 1}
 --- !u!1001 &1997919578
 PrefabInstance:
   m_ObjectHideFlags: 0
