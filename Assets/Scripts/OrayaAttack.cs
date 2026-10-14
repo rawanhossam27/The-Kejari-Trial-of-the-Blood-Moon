@@ -13,6 +13,7 @@ public class OrayaAttack : MonoBehaviour
     [SerializeField] OrayaSwordGrip grip;
     [SerializeField] Animator animator;
     [SerializeField] Transform sword;
+    [SerializeField] MoonSwordPoison poison;
     [SerializeField, Min(0f)] float damage = 1f;
     [SerializeField, Min(0.1f)] float bladeLength = 1.55f;
     [SerializeField, Min(0.05f)] float hitRadius = 0.42f;
@@ -29,6 +30,7 @@ public class OrayaAttack : MonoBehaviour
 
     public bool IsAttacking => attacking;
     public bool HitWindowOpen => hitWindow;
+    public float CurrentDamage => poison != null && poison.IsActive ? damage * poison.DamageMultiplier : damage;
 
     void Awake()
     {
@@ -38,6 +40,8 @@ public class OrayaAttack : MonoBehaviour
             grip = GetComponent<OrayaSwordGrip>();
         if (animator == null)
             animator = GetComponent<Animator>();
+        if (poison == null)
+            poison = GetComponent<MoonSwordPoison>();
         if (sword == null)
         {
             var found = transform.Find("root/pelvis/spine_01/spine_02/spine_03/spine_04/spine_05/clavicle_r/upperarm_r/lowerarm_r/hand_r/weapon_r/MoonSword");
@@ -145,7 +149,7 @@ public class OrayaAttack : MonoBehaviour
             if (target == null || target.IsDefeated || !hitThisSwing.Add(target))
                 continue;
 
-            target.TakeDamage(damage);
+            target.TakeDamage(CurrentDamage);
         }
     }
 }
