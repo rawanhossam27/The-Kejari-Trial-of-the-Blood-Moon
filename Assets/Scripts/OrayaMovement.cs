@@ -90,16 +90,16 @@ public class OrayaMovement : MonoBehaviour
         Keyboard keyboard = Keyboard.current;
         if (keyboard != null)
         {
-            if (keyboard.aKey.isPressed) x -= 1f;
-            if (keyboard.dKey.isPressed) x += 1f;
-            if (keyboard.sKey.isPressed) z -= 1f;
-            if (keyboard.wKey.isPressed) z += 1f;
+            if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) x -= 1f;
+            if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) x += 1f;
+            if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) z -= 1f;
+            if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) z += 1f;
         }
 #elif ENABLE_LEGACY_INPUT_MANAGER
-        if (Input.GetKey(KeyCode.A)) x -= 1f;
-        if (Input.GetKey(KeyCode.D)) x += 1f;
-        if (Input.GetKey(KeyCode.S)) z -= 1f;
-        if (Input.GetKey(KeyCode.W)) z += 1f;
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) x -= 1f;
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) x += 1f;
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) z -= 1f;
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) z += 1f;
 #endif
         Vector3 input = new Vector3(x, 0f, z);
         if (input.sqrMagnitude < 0.0001f)
