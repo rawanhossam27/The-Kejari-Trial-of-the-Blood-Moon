@@ -63,9 +63,14 @@ public class OrayaSwordGrip : MonoBehaviour
 
     static readonly int SpeedId = Animator.StringToHash("Speed");
 
+    /// <summary>
+    /// While true, the idle hand pose is not applied, so an attack clip can move the sword arm.
+    /// </summary>
+    public bool SuspendPoseLock { get; set; }
+
     void LateUpdate()
     {
-        if (IsLocomoting())
+        if (SuspendPoseLock || IsLocomoting())
             return;
 
         Apply();
