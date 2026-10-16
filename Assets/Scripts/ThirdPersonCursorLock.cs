@@ -10,7 +10,8 @@ public class ThirdPersonCursorLock : MonoBehaviour
 {
     void OnEnable()
     {
-        SetLocked(true);
+        if (Application.isPlaying)
+            SetLocked(true);
     }
 
     void OnDisable()
@@ -26,14 +27,25 @@ public class ThirdPersonCursorLock : MonoBehaviour
             SetLocked(false);
 
         Mouse mouse = Mouse.current;
-        if (mouse != null && mouse.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
-            SetLocked(true);
+        if (mouse == null || !mouse.leftButton.wasPressedThisFrame || Cursor.lockState == CursorLockMode.Locked)
+            return;
+        if (PointerOverUi())
+            return;
+
+        SetLocked(true);
 #endif
+    }
+
+    static bool PointerOverUi()
+    {
+        var system = UnityEngine.EventSystems.EventSystem.current;
+        return system != null && system.IsPointerOverGameObject();
     }
 
     static void SetLocked(bool locked)
     {
-        Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
-        Cursor.visible = !locked;
+        // Confined keeps the cursor inside the game view for the orbit, and still lets it reach HUD buttons.
+        Cursor.lockState = locked ? CursorLockMode.Confined : CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

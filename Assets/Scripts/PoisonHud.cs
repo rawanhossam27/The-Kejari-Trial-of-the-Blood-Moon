@@ -18,7 +18,10 @@ public class PoisonHud : MonoBehaviour
 
     float acquiredUntil;
     int shownCharges;
+    int shownHealing;
+    string acquiredText = "Poison Acquired";
     PoisonVialPickup[] vials;
+    HealingPotion healing;
 
     void Awake()
     {
@@ -42,6 +45,10 @@ public class PoisonHud : MonoBehaviour
     {
         if (poison != null)
             poison.ChargesChanged += HandleChargesChanged;
+        if (healing == null)
+            healing = FindAnyObjectByType<HealingPotion>();
+        if (healing != null)
+            healing.ChargesChanged += HandleHealingChanged;
         vials = FindObjectsByType<PoisonVialPickup>(FindObjectsInactive.Include, FindObjectsSortMode.None);
     }
 
@@ -49,13 +56,28 @@ public class PoisonHud : MonoBehaviour
     {
         if (poison != null)
             poison.ChargesChanged -= HandleChargesChanged;
+        if (healing != null)
+            healing.ChargesChanged -= HandleHealingChanged;
     }
 
     void HandleChargesChanged(int charges)
     {
         if (charges > shownCharges && shownCharges >= 0)
+        {
+            acquiredText = "Poison Acquired";
             acquiredUntil = Time.time + acquiredDuration;
+        }
         shownCharges = charges;
+    }
+
+    void HandleHealingChanged(int charges)
+    {
+        if (charges > shownHealing && shownHealing >= 0)
+        {
+            acquiredText = "Healing Potion Acquired";
+            acquiredUntil = Time.time + acquiredDuration;
+        }
+        shownHealing = charges;
     }
 
     void Update()
@@ -70,8 +92,16 @@ public class PoisonHud : MonoBehaviour
 
         if (Time.time < acquiredUntil)
         {
-            SetPrompt("Poison Acquired");
+            SetPrompt(acquiredText);
             Show(statusGroup, false);
+            return;
+        }
+
+        var closest = ArenaPickups.ClosestInRange();
+        if (closest != null)
+        {
+            Show(statusGroup, false);
+            SetPrompt(closest.Prompt);
             return;
         }
 
@@ -87,9 +117,16 @@ public class PoisonHud : MonoBehaviour
         }
 
         Show(statusGroup, false);
-        if (poison != null && poison.Charges > 0)
+        bool healingReady = healing != null && healing.Charges > 0;
+        bool poisonReady = poison != null && poison.Charges > 0;
+        if (healingReady || poisonReady)
         {
-            SetPrompt("[Q]  Poison Moon Sword");
+            string text = healingReady
+                ? (healing.Charges == 1 ? "Press H to heal" : $"Press H to heal  x{healing.Charges}")
+                : "";
+            if (poisonReady)
+                text = text.Length == 0 ? "[Q]  Poison Moon Sword" : text + "\n[Q]  Poison Moon Sword";
+            SetPrompt(text);
             return;
         }
 

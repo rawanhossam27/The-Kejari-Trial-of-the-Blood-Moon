@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -115,10 +116,26 @@ public class OrayaAttack : MonoBehaviour
     {
 #if ENABLE_INPUT_SYSTEM
         var mouse = Mouse.current;
-        return mouse != null && mouse.leftButton.wasPressedThisFrame;
+        if (mouse == null || !mouse.leftButton.wasPressedThisFrame)
+            return false;
+        if (Cursor.lockState != CursorLockMode.Locked && PointerOverUi(mouse.position.ReadValue()))
+            return false;
+        return true;
 #else
         return false;
 #endif
+    }
+
+    static bool PointerOverUi(Vector2 screen)
+    {
+        if (EventSystem.current == null)
+            return false;
+
+        var pointer = new PointerEventData(EventSystem.current);
+        pointer.position = screen;
+        var hits = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointer, hits);
+        return hits.Count > 0;
     }
 
     bool IsSlashPlaying()

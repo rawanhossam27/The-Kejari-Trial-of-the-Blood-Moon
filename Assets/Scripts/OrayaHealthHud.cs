@@ -38,7 +38,11 @@ public class OrayaHealthHud : MonoBehaviour
     void Awake()
     {
         foreach (var graphic in GetComponentsInChildren<Graphic>(true))
+        {
+            if (graphic.GetComponentInParent<HealthTestButton>(true) != null)
+                continue;
             graphic.raycastTarget = false;
+        }
 
         if (group != null)
         {

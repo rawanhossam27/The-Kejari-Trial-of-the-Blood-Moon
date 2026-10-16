@@ -368,7 +368,7 @@ public class OrayaDaggerThrow : MonoBehaviour
     {
 #if ENABLE_INPUT_SYSTEM
         Mouse mouse = Mouse.current;
-        if (mouse != null && Cursor.lockState != CursorLockMode.Locked)
+        if (mouse != null && Cursor.lockState == CursorLockMode.None)
         {
             Vector2 screen = mouse.position.ReadValue();
             if (screen.x >= 0f && screen.y >= 0f && screen.x <= camera.pixelWidth && screen.y <= camera.pixelHeight)

@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// One world poison vial. E collects it once gameplay controls are on.
 /// </summary>
-public class PoisonVialPickup : MonoBehaviour
+public class PoisonVialPickup : MonoBehaviour, IArenaPickup
 {
     [SerializeField] Transform player;
     [SerializeField] OrayaMovement movement;
@@ -24,6 +24,17 @@ public class PoisonVialPickup : MonoBehaviour
 
     public bool IsCollected => collected;
     public float Range => range;
+    public string Prompt => "[E]  Collect Poison";
+
+    public float DistanceSqr
+    {
+        get
+        {
+            if (player == null)
+                return float.MaxValue;
+            return (player.position - transform.position).sqrMagnitude;
+        }
+    }
 
     public event Action Collected;
 
@@ -57,8 +68,11 @@ public class PoisonVialPickup : MonoBehaviour
         restCaptured = true;
     }
 
+    void OnEnable() => ArenaPickups.Register(this);
+
     void OnDisable()
     {
+        ArenaPickups.Unregister(this);
         if (restCaptured)
             transform.position = restPosition;
     }
@@ -73,30 +87,13 @@ public class PoisonVialPickup : MonoBehaviour
         transform.position = restPosition + Vector3.up * bob;
         transform.Rotate(0f, spinSpeed * Time.deltaTime, 0f, Space.World);
 
-        if (CollectPressed() && IsClosestInRange())
+        if (CollectPressed() && ArenaPickups.IsClosest(this))
             TryCollect();
-    }
-
-    bool IsClosestInRange()
-    {
-        float mine = (player.position - transform.position).sqrMagnitude;
-        var others = FindObjectsByType<PoisonVialPickup>(FindObjectsSortMode.None);
-        for (int i = 0; i < others.Length; i++)
-        {
-            var other = others[i];
-            if (other == this || !other.InRange)
-                continue;
-            float distance = (player.position - other.transform.position).sqrMagnitude;
-            if (distance < mine)
-                return false;
-        }
-
-        return true;
     }
 
     public bool TryCollect()
     {
-        if (!InRange || poison == null)
+        if (!InRange || !ArenaPickups.IsClosest(this) || poison == null)
             return false;
 
         collected = true;
