@@ -158,6 +158,15 @@ public class OrayaDaggerThrow : MonoBehaviour
             Release();
     }
 
+    public bool IsBusy => phase != Phase.Idle;
+
+    public void SetCarriedDaggerVisible(bool visible)
+    {
+        if (!visible && IsBusy)
+            return;
+        SetHandVisible(visible);
+    }
+
     public bool CanThrow()
     {
         if (phase != Phase.Idle && phase != Phase.Reequip)
