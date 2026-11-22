@@ -24,6 +24,7 @@ public class EntryCinematicController : MonoBehaviour
     bool sawBlend;
     int blendWaitFrames;
     bool restoreBlend;
+    bool trialStartMarked;
     CinemachineBlendDefinition savedBlend;
 
     public bool IsPlaying => playing || waitingForBlend;
@@ -138,6 +139,8 @@ public class EntryCinematicController : MonoBehaviour
         if (movement != null)
             movement.InputEnabled = true;
 
+        MarkTrialStarted();
+
         if (!restoreBlend)
             return;
 
@@ -145,6 +148,19 @@ public class EntryCinematicController : MonoBehaviour
         if (brain != null)
             brain.DefaultBlend = savedBlend;
         restoreBlend = false;
+    }
+
+    /// <summary>
+    /// The trial starts when this handoff succeeds, not when the scene loads.
+    /// Repeating the handoff does not change a flag that is already set.
+    /// </summary>
+    void MarkTrialStarted()
+    {
+        if (trialStartMarked || !StoryStateManager.Exists)
+            return;
+
+        trialStartMarked = true;
+        StoryStateManager.Instance.SetFlag(StoryStateManager.Flags.TrialStarted, true);
     }
 
     static bool SkipPressed()

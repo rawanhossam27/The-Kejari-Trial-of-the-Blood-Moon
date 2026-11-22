@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3d3100baa5cbe47b8d6be56c9e355a, type: 3}
+  m_Name: Dialogue_Raihn_FirstMeeting
+  m_EditorClassIdentifier: 
+  lines:
+  - speakerName: Raihn
+    portrait: {fileID: 0}
+    text: You walked in on your own feet. The blood moon does not usually get that courtesy.
+    endsConversation: 0
+    choices: []
+  - speakerName: Raihn
+    portrait: {fileID: 0}
+    text: Raihn. I am bound to this trial the same as you. I am not here to put a blade in your back.
+    endsConversation: 0
+    choices:
+    - text: Then we last longer if we do not waste the fight on each other.
+      nextLine: 2
+      flags: []
+    - text: Keep your distance. I did not come here for an ally.
+      nextLine: 3
+      flags: []
+  - speakerName: Raihn
+    portrait: {fileID: 0}
+    text: Sensible. When the others come for you, I will be at your side. Do the same for me.
+    endsConversation: 1
+    choices: []
+  - speakerName: Raihn
+    portrait: {fileID: 0}
+    text: Distance, then. The trial will not give you much of it. If you change your mind, I will still be standing.
+    endsConversation: 1
+    choices: []
+  onComplete:
+  - flagId: raihnEncountered
+    value: 1
