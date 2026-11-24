@@ -63,6 +63,74 @@ public class DialogueUI : MonoBehaviour
         portraitFrame.SetActive(hasPortrait);
         if (hasPortrait)
             portraitImage.sprite = portrait;
+
+        FitToText(hasPortrait);
+        bodyLabel.text = revealing ? string.Empty : fullText;
+    }
+
+    /// <summary>
+    /// Sizes the plate around the spoken line. A short line stays narrow, and a missing portrait
+    /// does not leave an empty column.
+    /// </summary>
+    void FitToText(bool hasPortrait)
+    {
+        const float bottomMargin = 48f;
+        const float framePad = 7f;
+        const float maxTextWidth = 520f;
+        const float minTextWidth = 260f;
+        const float sidePad = 22f;
+        const float topPad = 14f;
+        const float nameBlock = 32f;
+        const float continueBlock = 28f;
+        const float portraitSize = 92f;
+        const float portraitGap = 14f;
+
+        float left = sidePad + (hasPortrait ? portraitSize + portraitGap : 0f);
+        var bodyRect = bodyLabel.rectTransform;
+        bodyRect.anchorMin = new Vector2(0f, 1f);
+        bodyRect.anchorMax = new Vector2(0f, 1f);
+        bodyRect.pivot = new Vector2(0f, 1f);
+        bodyRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxTextWidth);
+
+        bodyLabel.text = fullText;
+        bodyLabel.ForceMeshUpdate();
+        Vector2 preferred = bodyLabel.GetPreferredValues(fullText, maxTextWidth, 0f);
+        float textWidth = Mathf.Clamp(preferred.x, minTextWidth, maxTextWidth);
+        float textHeight = Mathf.Max(28f, preferred.y);
+
+        float panelWidth = left + textWidth + sidePad;
+        float panelHeight = topPad + nameBlock + 4f + textHeight + continueBlock;
+
+        if (hasPortrait)
+        {
+            var portraitRect = portraitFrame.GetComponent<RectTransform>();
+            portraitRect.sizeDelta = new Vector2(portraitSize, portraitSize);
+            portraitRect.anchoredPosition = new Vector2(sidePad, 0f);
+        }
+
+        var nameRect = nameLabel.rectTransform;
+        nameRect.anchorMin = new Vector2(0f, 1f);
+        nameRect.anchorMax = new Vector2(0f, 1f);
+        nameRect.pivot = new Vector2(0f, 1f);
+        nameRect.anchoredPosition = new Vector2(left, -topPad);
+        nameRect.sizeDelta = new Vector2(textWidth, nameBlock);
+
+        bodyRect.anchoredPosition = new Vector2(left, -(topPad + nameBlock + 2f));
+        bodyRect.sizeDelta = new Vector2(textWidth, textHeight);
+
+        var continueRect = continueLabel.rectTransform;
+        continueRect.anchorMin = new Vector2(1f, 0f);
+        continueRect.anchorMax = new Vector2(1f, 0f);
+        continueRect.pivot = new Vector2(1f, 0f);
+        continueRect.sizeDelta = new Vector2(Mathf.Min(168f, textWidth), 22f);
+        continueRect.anchoredPosition = new Vector2(-sidePad, 8f);
+
+        var plate = panel.GetComponent<RectTransform>();
+        StretchBottom(plate, new Vector2(panelWidth, panelHeight), new Vector2(0f, bottomMargin + framePad));
+        StretchBottom(frame.GetComponent<RectTransform>(), new Vector2(panelWidth + framePad * 2f, panelHeight + framePad * 2f), new Vector2(0f, bottomMargin));
+
+        choiceRoot.sizeDelta = new Vector2(Mathf.Max(360f, panelWidth), 220f);
+        choiceRoot.anchoredPosition = new Vector2(0f, bottomMargin + panelHeight + framePad * 2f + 12f);
     }
 
     /// <summary>Fills the line immediately. The continue mark appears when there are no choices yet.</summary>
@@ -166,7 +234,7 @@ public class DialogueUI : MonoBehaviour
         // Frame sits just behind the plate so the purple edge reads as a border.
         Image frameImage = CreateImage("Frame", canvasObject.transform, sprite, FrameColor);
         frame = frameImage.gameObject;
-        StretchBottom(frameImage.rectTransform, new Vector2(1000f, 248f), new Vector2(0f, 128f));
+        StretchBottom(frameImage.rectTransform, new Vector2(560f, 150f), new Vector2(0f, 48f));
         frameImage.raycastTarget = false;
 
         panel = new GameObject("Panel", typeof(RectTransform));
@@ -175,7 +243,7 @@ public class DialogueUI : MonoBehaviour
         plate.sprite = sprite;
         plate.type = Image.Type.Simple;
         plate.color = PanelColor;
-        StretchBottom(plate.rectTransform, new Vector2(980f, 228f), new Vector2(0f, 136f));
+        StretchBottom(plate.rectTransform, new Vector2(546f, 136f), new Vector2(0f, 55f));
 
         portraitFrame = CreateImage("PortraitFrame", panel.transform, sprite, new Color(0.10f, 0.06f, 0.09f, 1f)).gameObject;
         var portraitRect = portraitFrame.GetComponent<RectTransform>();
@@ -222,8 +290,8 @@ public class DialogueUI : MonoBehaviour
         choiceRoot.anchorMin = new Vector2(0.5f, 0f);
         choiceRoot.anchorMax = new Vector2(0.5f, 0f);
         choiceRoot.pivot = new Vector2(0.5f, 0f);
-        choiceRoot.sizeDelta = new Vector2(720f, 220f);
-        choiceRoot.anchoredPosition = new Vector2(0f, 390f);
+        choiceRoot.sizeDelta = new Vector2(546f, 180f);
+        choiceRoot.anchoredPosition = new Vector2(0f, 210f);
         var layout = choices.AddComponent<VerticalLayoutGroup>();
         layout.childAlignment = TextAnchor.LowerCenter;
         layout.spacing = 8f;

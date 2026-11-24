@@ -7,6 +7,7 @@ using UnityEngine;
 public class Damageable : MonoBehaviour
 {
     [SerializeField, Min(1f)] float maxHealth = 3f;
+    [SerializeField, Min(0f)] float damageTakenScale = 1f;
 
     public float MaxHealth => maxHealth;
     public float CurrentHealth { get; private set; }
@@ -14,6 +15,9 @@ public class Damageable : MonoBehaviour
 
     public event Action Hit;
     public event Action Defeated;
+
+    /// <summary>Current health, then maximum. Fired after a hit that changed health.</summary>
+    public event Action<float, float> HealthChanged;
 
     void Awake()
     {
@@ -25,8 +29,9 @@ public class Damageable : MonoBehaviour
         if (IsDefeated || amount <= 0f)
             return;
 
-        CurrentHealth = Mathf.Max(0f, CurrentHealth - amount);
+        CurrentHealth = Mathf.Max(0f, CurrentHealth - amount * damageTakenScale);
         Hit?.Invoke();
+        HealthChanged?.Invoke(CurrentHealth, maxHealth);
         if (IsDefeated)
             Defeated?.Invoke();
     }

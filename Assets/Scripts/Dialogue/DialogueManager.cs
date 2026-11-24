@@ -20,6 +20,9 @@ public class DialogueManager : MonoBehaviour
     int lineIndex = -1;
     bool choicesShown;
     bool restoreInput;
+    bool holdMovement = true;
+    float autoAdvanceAfterReveal;
+    float autoAdvanceRemaining = -1f;
     int startedFrame = -1;
 
     /// <summary>The conversation that just finished. Raised after its completion flags are written.</summary>
@@ -78,12 +81,34 @@ public class DialogueManager : MonoBehaviour
         if (ui.ChoicesVisible)
             return;
 
+        if (autoAdvanceAfterReveal > 0f && !LineHasChoices(lineIndex))
+        {
+            if (autoAdvanceRemaining < 0f)
+                autoAdvanceRemaining = autoAdvanceAfterReveal;
+            autoAdvanceRemaining -= Time.deltaTime;
+            if (autoAdvanceRemaining <= 0f)
+            {
+                autoAdvanceRemaining = -1f;
+                Advance();
+                return;
+            }
+        }
+
         if (AdvancePressed())
             Advance();
     }
 
     /// <summary>Starts a conversation. Returns false when one is already running or gameplay is not ready.</summary>
     public bool StartDialogue(DialogueData conversation)
+    {
+        return StartDialogue(conversation, true, 0f);
+    }
+
+    /// <summary>
+    /// Starts a conversation. E-prompt talks hold Oraya until the line advances.
+    /// A proximity encounter can leave her moving and hide the line on its own once it has been readable.
+    /// </summary>
+    public bool StartDialogue(DialogueData conversation, bool holdPlayer, float readableSeconds)
     {
         if (IsRunning || ui == null || conversation == null || conversation.lines == null || conversation.lines.Length == 0)
             return false;
@@ -93,9 +118,13 @@ public class DialogueManager : MonoBehaviour
         active = conversation;
         lineIndex = 0;
         choicesShown = false;
+        holdMovement = holdPlayer;
+        autoAdvanceAfterReveal = Mathf.Max(0f, readableSeconds);
+        autoAdvanceRemaining = -1f;
         // The E that opens the conversation must not also skip the first line.
         startedFrame = Time.frameCount;
-        HoldGameplay();
+        if (holdMovement)
+            HoldGameplay();
         ShowLine(lineIndex);
         return true;
     }
@@ -112,6 +141,7 @@ public class DialogueManager : MonoBehaviour
         active = null;
         lineIndex = -1;
         choicesShown = false;
+        autoAdvanceRemaining = -1f;
         if (ui != null)
             ui.Hide();
         ReleaseGameplay();
@@ -145,6 +175,7 @@ public class DialogueManager : MonoBehaviour
 
         lineIndex = index;
         choicesShown = false;
+        autoAdvanceRemaining = -1f;
         DialogueLine line = active.lines[index];
         ui.ShowLine(line.speakerName, line.portrait, line.text);
     }
@@ -188,6 +219,7 @@ public class DialogueManager : MonoBehaviour
         active = null;
         lineIndex = -1;
         choicesShown = false;
+        autoAdvanceRemaining = -1f;
         if (ui != null)
             ui.Hide();
         ReleaseGameplay();
