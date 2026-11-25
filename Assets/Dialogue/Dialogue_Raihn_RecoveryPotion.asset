@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3d3100baa5cbe47b8d6be56c9e355a, type: 3}
+  m_Name: Dialogue_Raihn_RecoveryPotion
+  m_EditorClassIdentifier: 
+  lines:
+  - speakerName: Raihn
+    portrait: {fileID: 0}
+    text: Welcome back.
+    endsConversation: 0
+    choices: []
+  - speakerName: Raihn
+    portrait: {fileID: 0}
+    text: You gave us quite a scare back there.
+    endsConversation: 0
+    choices: []
+  - speakerName: Raihn
+    portrait: {fileID: 0}
+    text: Here. This should help you recover.
+    endsConversation: 0
+    choices:
+    - text: Accept the potion
+      nextLine: 3
+      flags:
+      - flagId: raihnPotionAccepted
+        value: 1
+    - text: Decline the potion
+      nextLine: 5
+      flags:
+      - flagId: raihnPotionDeclined
+        value: 1
+  - speakerName: Oraya
+    portrait: {fileID: 0}
+    text: Thank you.
+    endsConversation: 0
+    choices: []
+  - speakerName: Raihn
+    portrait: {fileID: 0}
+    text: Try to get some rest. You've earned it.
+    endsConversation: 1
+    choices: []
+  - speakerName: Oraya
+    portrait: {fileID: 0}
+    text: I can manage.
+    endsConversation: 0
+    choices: []
+  - speakerName: Raihn
+    portrait: {fileID: 0}
+    text: Still as stubborn as ever.
+    endsConversation: 1
+    choices: []
+  onComplete:
+  - flagId: raihnBedsideSpoken
+    value: 1

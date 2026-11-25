@@ -12,7 +12,9 @@ using UnityEngine;
 /// The flags line up with the three stages, but only later narrative scripts should set them:
 /// Moon Palace (orayaIntroduced, kejariExplained, raihnEncountered),
 /// Blood Moon Arena (trialStarted, alphaIdentified, alphaDefeated, trialCompleted),
-/// Recovery Area (allianceDecisionMade, allianceAccepted), plus nextStageUnlocked for the stage gate.
+/// Recovery Area (recoveryArrived, raihnSpotted, raihnPotionAccepted, raihnPotionDeclined,
+/// raihnBedsideSpoken, orayaGotUp, letterDiscovered, letterRead, raihnTrialSpoken,
+/// recoveryCompleted, allianceDecisionMade, allianceAccepted), plus nextStageUnlocked for the stage gate.
 /// </remarks>
 [DisallowMultipleComponent]
 [DefaultExecutionOrder(-200)]
@@ -28,6 +30,16 @@ public class StoryStateManager : MonoBehaviour
         public const string AlphaIdentified = "alphaIdentified";
         public const string AlphaDefeated = "alphaDefeated";
         public const string TrialCompleted = "trialCompleted";
+        public const string RecoveryArrived = "recoveryArrived";
+        public const string RaihnSpotted = "raihnSpotted";
+        public const string RaihnPotionAccepted = "raihnPotionAccepted";
+        public const string RaihnPotionDeclined = "raihnPotionDeclined";
+        public const string RaihnBedsideSpoken = "raihnBedsideSpoken";
+        public const string OrayaGotUp = "orayaGotUp";
+        public const string LetterDiscovered = "letterDiscovered";
+        public const string LetterRead = "letterRead";
+        public const string RaihnTrialSpoken = "raihnTrialSpoken";
+        public const string RecoveryCompleted = "recoveryCompleted";
         public const string AllianceDecisionMade = "allianceDecisionMade";
         public const string AllianceAccepted = "allianceAccepted";
         public const string NextStageUnlocked = "nextStageUnlocked";
@@ -42,6 +54,16 @@ public class StoryStateManager : MonoBehaviour
         Flags.AlphaIdentified,
         Flags.AlphaDefeated,
         Flags.TrialCompleted,
+        Flags.RecoveryArrived,
+        Flags.RaihnSpotted,
+        Flags.RaihnPotionAccepted,
+        Flags.RaihnPotionDeclined,
+        Flags.RaihnBedsideSpoken,
+        Flags.OrayaGotUp,
+        Flags.LetterDiscovered,
+        Flags.LetterRead,
+        Flags.RaihnTrialSpoken,
+        Flags.RecoveryCompleted,
         Flags.AllianceDecisionMade,
         Flags.AllianceAccepted,
         Flags.NextStageUnlocked

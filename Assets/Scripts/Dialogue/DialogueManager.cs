@@ -110,9 +110,18 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     public bool StartDialogue(DialogueData conversation, bool holdPlayer, float readableSeconds)
     {
+        return StartDialogue(conversation, holdPlayer, readableSeconds, true);
+    }
+
+    /// <summary>
+    /// <paramref name="requireReady"/> stays true for talks Oraya starts herself.
+    /// A scripted bedside conversation can pass false, because she is still lying down and input is locked.
+    /// </summary>
+    public bool StartDialogue(DialogueData conversation, bool holdPlayer, float readableSeconds, bool requireReady)
+    {
         if (IsRunning || ui == null || conversation == null || conversation.lines == null || conversation.lines.Length == 0)
             return false;
-        if (!GameplayReady())
+        if (requireReady && !GameplayReady())
             return false;
 
         active = conversation;

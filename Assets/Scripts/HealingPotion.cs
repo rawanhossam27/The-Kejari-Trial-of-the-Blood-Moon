@@ -39,6 +39,19 @@ public class HealingPotion : MonoBehaviour
         ChargesChanged?.Invoke(Charges);
     }
 
+    /// <summary>
+    /// Bedside recovery. Heals immediately and plays the same glow as drinking a charge.
+    /// It does not spend or add inventory charges.
+    /// </summary>
+    public void RecoverNow()
+    {
+        if (health == null || health.IsDead)
+            return;
+
+        health.Heal(healAmount);
+        SpawnGlow();
+    }
+
     public bool TryDrink()
     {
         if (Charges <= 0 || health == null || health.IsDead)

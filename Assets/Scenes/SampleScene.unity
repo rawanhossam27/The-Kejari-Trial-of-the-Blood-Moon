@@ -1654,6 +1654,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d44d0004defa4a4e9d00000000000004, type: 2}
   - {fileID: 11400000, guid: e55e0005c0e14a4e9e00000000000005, type: 2}
   - {fileID: 11400000, guid: f66f00060e214a4e9f00000000000006, type: 2}
+  - {fileID: 11400000, guid: ee38314599837da438f3f2cc72e1dcc0, type: 2}
+  - {fileID: 11400000, guid: 3d7ea8c02b82ba644bf9bb31d1db315e, type: 2}
+  - {fileID: 11400000, guid: 46012ba7f7efc4f4d8b6288b0faa05ee, type: 2}
+  - {fileID: 11400000, guid: e82b4fb1a1ea6ad40855e14b7bc9f370, type: 2}
+  - {fileID: 11400000, guid: 84911372a5930ac428dca190bf66c926, type: 2}
+  - {fileID: 11400000, guid: 4de382f6683bd6b488e1f2e4460e7b40, type: 2}
 --- !u!4 &44011470
 Transform:
   m_ObjectHideFlags: 0
@@ -4539,6 +4545,74 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3844207643767726907, guid: 5148c925e0a9fcd47adfc92a5ab6ebbb, type: 3}
   m_PrefabInstance: {fileID: 152377509}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &154730743
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 154730744}
+  - component: {fileID: 154730746}
+  - component: {fileID: 154730745}
+  m_Layer: 0
+  m_Name: ExitThreshold
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &154730744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154730743}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.00000004371139}
+  m_LocalPosition: {x: 0.00000013987648, y: 1.45, z: -1.6000004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 131963197}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &154730745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154730743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2c63c6c7a051504bab8d13491c0db7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: RecoveryRoom
+  gate: {fileID: 1634382152}
+--- !u!65 &154730746
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154730743}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.6, y: 3, z: 1.25}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &157565655
 GameObject:
   m_ObjectHideFlags: 0
@@ -72038,6 +72112,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4757790619957903007, guid: 63bddb9a580692a40ad99b5e9e7d828e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 604086544}
+    - targetCorrespondingSourceObject: {fileID: 4757790619957903007, guid: 63bddb9a580692a40ad99b5e9e7d828e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 154730744}
     - targetCorrespondingSourceObject: {fileID: 3098179983942794138, guid: 63bddb9a580692a40ad99b5e9e7d828e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 487761237}
