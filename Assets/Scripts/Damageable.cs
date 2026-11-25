@@ -13,6 +13,9 @@ public class Damageable : MonoBehaviour
     public float CurrentHealth { get; private set; }
     public bool IsDefeated => CurrentHealth <= 0f;
 
+    /// <summary>When false, hits are ignored. Used while the Alpha is dormant.</summary>
+    public bool AcceptsDamage { get; set; } = true;
+
     public event Action Hit;
     public event Action Defeated;
 
@@ -26,7 +29,7 @@ public class Damageable : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        if (IsDefeated || amount <= 0f)
+        if (!AcceptsDamage || IsDefeated || amount <= 0f)
             return;
 
         CurrentHealth = Mathf.Max(0f, CurrentHealth - amount * damageTakenScale);

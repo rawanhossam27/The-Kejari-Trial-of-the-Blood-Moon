@@ -32,7 +32,7 @@ public class ExitLever : MonoBehaviour, IArenaPickup
     {
         get
         {
-            if (activated || !leverVisible || !leverUnlocked || player == null || !GameplayAllowed())
+            if (activated || !leverVisible || !leverUnlocked || !TrialWon() || player == null || !GameplayAllowed())
                 return false;
             return (player.position - transform.position).sqrMagnitude <= range * range;
         }
@@ -75,11 +75,13 @@ public class ExitLever : MonoBehaviour, IArenaPickup
     void OnDisable()
     {
         ArenaPickups.Unregister(this);
+        if (gate != null)
+            gate.Opened -= MarkExitOpen;
     }
 
     void Update()
     {
-        if (activated || !leverVisible || !leverUnlocked)
+        if (activated || !leverVisible || !leverUnlocked || !TrialWon())
             return;
         if (CollectPressed() && ArenaPickups.IsClosest(this))
             TryActivate();
@@ -97,7 +99,7 @@ public class ExitLever : MonoBehaviour, IArenaPickup
 
     public bool TryActivate()
     {
-        if (activated || !leverVisible || !leverUnlocked)
+        if (activated || !leverVisible || !leverUnlocked || !TrialWon())
             return false;
         if (!InRange || !ArenaPickups.IsClosest(this))
             return false;
@@ -117,8 +119,31 @@ public class ExitLever : MonoBehaviour, IArenaPickup
     {
         if (leverAnimator != null)
             leverAnimator.SetBool("LeverUp", true);
-        if (gate != null && !gate.IsOpen)
-            gate.Open();
+
+        if (gate == null || gate.IsOpen)
+        {
+            MarkExitOpen();
+            return;
+        }
+
+        gate.Opened -= MarkExitOpen;
+        gate.Opened += MarkExitOpen;
+        gate.Open();
+    }
+
+    void MarkExitOpen()
+    {
+        if (gate != null)
+            gate.Opened -= MarkExitOpen;
+
+        if (StoryStateManager.Exists)
+            StoryStateManager.Instance.SetFlag(StoryStateManager.Flags.NextStageUnlocked, true);
+    }
+
+    static bool TrialWon()
+    {
+        return !StoryStateManager.Exists
+            || StoryStateManager.Instance.IsFlagSet(StoryStateManager.Flags.TrialCompleted);
     }
 
     void ApplyAvailability()

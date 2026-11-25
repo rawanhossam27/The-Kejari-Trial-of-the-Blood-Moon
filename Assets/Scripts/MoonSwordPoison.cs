@@ -14,7 +14,7 @@ public class MoonSwordPoison : MonoBehaviour
     [SerializeField] OrayaMovement movement;
     [SerializeField] Transform sword;
     [SerializeField, Min(0.1f)] float duration = 30f;
-    [SerializeField, Min(1f)] float damageMultiplier = 1.5f;
+    [SerializeField, Min(1f)] float damageMultiplier = 2f;
     [SerializeField] float bladeMinLocalY = 0.32f;
 
     static readonly Color CoatColor = new Color(0.08f, 0.72f, 0.32f, 0.62f);
