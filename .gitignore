@@ -50,6 +50,77 @@ sysinfo.txt
 
 # Development screenshots
 Assets/Screenshots/
+Assets/Screenshots.meta
+
+# Local Moon Palace source kept beside the committed Level 1 copies.
+# The committed scene uses the Level 1 URP materials and prefabs.
+Assets/Environment/MoonPalace/Materials/
+Assets/Environment/MoonPalace/Materials.meta
+Assets/Environment/MoonPalace/models/Materials/
+Assets/Environment/MoonPalace/models/Materials.meta
+Assets/Environment/MoonPalace/prefabs/
+Assets/Environment/MoonPalace/prefabs.meta
+Assets/Environment/MoonPalace/Settings/
+Assets/Environment/MoonPalace/Settings.meta
+Assets/Environment/MoonPalace/MEDIEVAL_ROOM_ASSET_INSPECTION.md
+Assets/Environment/MoonPalace/MEDIEVAL_ROOM_ASSET_INSPECTION.md.meta
+Assets/Environment/MoonPalace/textures/bookcase/Materials/
+Assets/Environment/MoonPalace/textures/bookcase/Materials.meta
+Assets/Environment/MoonPalace/textures/bookcase/bookcasewood_Height.png
+Assets/Environment/MoonPalace/textures/bookcase/bookcasewood_Height.png.meta
+Assets/Environment/MoonPalace/textures/chiar/Materials/
+Assets/Environment/MoonPalace/textures/chiar/Materials.meta
+Assets/Environment/MoonPalace/textures/chiar/wood the tabel and chaer.002_Height.png
+Assets/Environment/MoonPalace/textures/chiar/wood the tabel and chaer.002_Height.png.meta
+Assets/Environment/MoonPalace/textures/chiar/wood the tabel and chaer.002_Roughness.png
+Assets/Environment/MoonPalace/textures/chiar/wood the tabel and chaer.002_Roughness.png.meta
+Assets/Environment/MoonPalace/textures/door texture 2.png
+Assets/Environment/MoonPalace/textures/door texture 2.png.meta
+Assets/Environment/MoonPalace/textures/floor/4K/
+Assets/Environment/MoonPalace/textures/floor/4K.meta
+Assets/Environment/MoonPalace/textures/floor/Materials/
+Assets/Environment/MoonPalace/textures/floor/Materials.meta
+Assets/Environment/MoonPalace/textures/floor/marble_1_height.png
+Assets/Environment/MoonPalace/textures/floor/marble_1_height.png.meta
+Assets/Environment/MoonPalace/textures/floor/marble_1_roughness.png
+Assets/Environment/MoonPalace/textures/floor/marble_1_roughness.png.meta
+Assets/Environment/MoonPalace/textures/pillars/Materials/
+Assets/Environment/MoonPalace/textures/pillars/Materials.meta
+Assets/Environment/MoonPalace/textures/pillars/pilers_Height.png
+Assets/Environment/MoonPalace/textures/pillars/pilers_Height.png.meta
+Assets/Environment/MoonPalace/textures/pillars/pilers_Roughness.png
+Assets/Environment/MoonPalace/textures/pillars/pilers_Roughness.png.meta
+Assets/Environment/MoonPalace/textures/roofrop/Materials/
+Assets/Environment/MoonPalace/textures/roofrop/Materials.meta
+Assets/Environment/MoonPalace/textures/roofrop/top_roof_wood_Height.png
+Assets/Environment/MoonPalace/textures/roofrop/top_roof_wood_Height.png.meta
+Assets/Environment/MoonPalace/textures/roofrop/top_roof_wood_Mixed_AO.png
+Assets/Environment/MoonPalace/textures/roofrop/top_roof_wood_Mixed_AO.png.meta
+Assets/Environment/MoonPalace/textures/table/
+Assets/Environment/MoonPalace/textures/table.meta
+Assets/Environment/MoonPalace/textures/wall/Materials/
+Assets/Environment/MoonPalace/textures/wall/Materials.meta
+Assets/Environment/MoonPalace/textures/wall/brick_uneven_stones_height.png
+Assets/Environment/MoonPalace/textures/wall/brick_uneven_stones_height.png.meta
+Assets/Environment/MoonPalace/textures/wall/brick_uneven_stones_roughness.png
+Assets/Environment/MoonPalace/textures/wall/brick_uneven_stones_roughness.png.meta
+Assets/Environment/MoonPalace/textures/window/Materials/
+Assets/Environment/MoonPalace/textures/window/Materials.meta
+Assets/Environment/MoonPalace/textures/window/border.001_Height.png
+Assets/Environment/MoonPalace/textures/window/border.001_Height.png.meta
+Assets/Environment/MoonPalace/textures/window/trancpernt + base color1.png
+Assets/Environment/MoonPalace/textures/window/trancpernt + base color1.png.meta
+Assets/Environment/MoonPalace_Level1/MOON_PALACE_ART_REPORT.md
+Assets/Environment/MoonPalace_Level1/MOON_PALACE_ART_REPORT.md.meta
+
+# Local Elegant Interior files that Moon Palace does not use.
+# Original portrait materials for the two converted portraits stay here.
+Assets/Pegasus Studios/Elegant Interior Decor 3D Models Pack/Resources/Documents/
+Assets/Pegasus Studios/Elegant Interior Decor 3D Models Pack/Resources/Documents.meta
+Assets/Pegasus Studios/Elegant Interior Decor 3D Models Pack/Resources/Materials/Painting (Familly).mat
+Assets/Pegasus Studios/Elegant Interior Decor 3D Models Pack/Resources/Materials/Painting (Familly).mat.meta
+Assets/Pegasus Studios/Elegant Interior Decor 3D Models Pack/Resources/Materials/Painting (Old Man).mat
+Assets/Pegasus Studios/Elegant Interior Decor 3D Models Pack/Resources/Materials/Painting (Old Man).mat.meta
 
 # Optional Raihn source dumps kept locally
 Assets/Characters/Raihn/VampireSource/sephiroth V.ascii
