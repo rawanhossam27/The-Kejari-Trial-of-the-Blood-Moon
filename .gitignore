@@ -50,3 +50,13 @@ sysinfo.txt
 
 # Development screenshots
 Assets/Screenshots/
+
+# Optional Raihn source dumps kept locally
+Assets/Characters/Raihn/VampireSource/sephiroth V.ascii
+Assets/Characters/Raihn/VampireSource/sephiroth V.ascii.meta
+Assets/Characters/Raihn/VampireSource/sephiroth V.blend
+Assets/Characters/Raihn/VampireSource/sephiroth V.blend.meta
+Assets/Characters/Raihn/VampireSource/sephiroth V.mesh
+Assets/Characters/Raihn/VampireSource/sephiroth V.mesh.meta
+Assets/Characters/Raihn/VampireSource/sephiroth V.xps
+Assets/Characters/Raihn/VampireSource/sephiroth V.xps.meta
