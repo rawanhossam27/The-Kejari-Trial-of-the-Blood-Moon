@@ -63,6 +63,10 @@ public class DialogueManager : MonoBehaviour
         if (!IsRunning || ui == null || Time.frameCount == startedFrame)
             return;
 
+        // Pause keeps the open conversation where it is. The closing frame must not also advance it.
+        if (OrayaMovement.GameplaySuspended || Time.frameCount == LevelPauseMenu.ClosedFrame)
+            return;
+
         // First press finishes the typewriter. The next press advances the line.
         if (ui.IsRevealing)
         {

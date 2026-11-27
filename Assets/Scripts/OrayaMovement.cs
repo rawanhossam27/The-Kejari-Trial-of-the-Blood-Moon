@@ -24,9 +24,21 @@ public class OrayaMovement : MonoBehaviour
     Vector3 cinematicDirection;
 
     /// <summary>
-    /// When false, movement and run input are ignored. Gravity still holds her on the ground.
+    /// While true, gameplay input reads as off. The value stored by cinematics and dialogue is left unchanged.
     /// </summary>
-    public bool InputEnabled { get; set; } = true;
+    public static bool GameplaySuspended { get; set; }
+
+    bool inputEnabled = true;
+
+    /// <summary>
+    /// When false, movement and run input are ignored. Gravity still holds her on the ground.
+    /// A pause hides input without forgetting the value that was stored here.
+    /// </summary>
+    public bool InputEnabled
+    {
+        get => inputEnabled && !GameplaySuspended;
+        set => inputEnabled = value;
+    }
 
     /// <summary>
     /// While true, WASD is ignored and she walks along the direction set by SetCinematicDirection.

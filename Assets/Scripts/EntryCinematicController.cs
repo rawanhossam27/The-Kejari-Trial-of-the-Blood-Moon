@@ -25,6 +25,7 @@ public class EntryCinematicController : MonoBehaviour
     int blendWaitFrames;
     bool restoreBlend;
     bool trialStartMarked;
+    float elapsed;
     CinemachineBlendDefinition savedBlend;
 
     public bool IsPlaying => playing || waitingForBlend;
@@ -77,7 +78,8 @@ public class EntryCinematicController : MonoBehaviour
             return;
 
         float durationSafe = Mathf.Max(0.1f, duration);
-        float t = Mathf.Clamp01(Time.time / durationSafe);
+        elapsed += Time.deltaTime;
+        float t = Mathf.Clamp01(elapsed / durationSafe);
         if (dolly != null)
             dolly.CameraPosition = progress.Evaluate(t);
 
@@ -167,7 +169,10 @@ public class EntryCinematicController : MonoBehaviour
     {
 #if ENABLE_INPUT_SYSTEM
         Keyboard keyboard = Keyboard.current;
-        return keyboard != null && keyboard.spaceKey.wasPressedThisFrame;
+        return keyboard != null
+            && !OrayaMovement.GameplaySuspended
+            && Time.frameCount != LevelPauseMenu.ClosedFrame
+            && keyboard.spaceKey.wasPressedThisFrame;
 #else
         return false;
 #endif

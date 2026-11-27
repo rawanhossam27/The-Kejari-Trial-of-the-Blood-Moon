@@ -50,7 +50,7 @@ public class OrayaCameraManager : MonoBehaviour
     void Update()
     {
 #if ENABLE_INPUT_SYSTEM
-        if (cinematicLocked)
+        if (cinematicLocked || OrayaMovement.GameplaySuspended)
             return;
 
         Keyboard keyboard = Keyboard.current;
@@ -95,6 +95,12 @@ public class OrayaCameraManager : MonoBehaviour
         Apply(mode);
     }
 
+    /// <summary>Reapplies look-input ownership after the pause menu opens or closes.</summary>
+    public void RefreshInputGate()
+    {
+        Apply(mode);
+    }
+
     /// <summary>
     /// Drops the entry cinematic so the brain can blend back to Camera 1.
     /// </summary>
@@ -112,7 +118,7 @@ public class OrayaCameraManager : MonoBehaviour
 
     public void SetMode(Mode next)
     {
-        if (cinematicLocked || next == mode)
+        if (cinematicLocked || OrayaMovement.GameplaySuspended || next == mode)
             return;
 
         if (next == Mode.FirstPerson)
@@ -145,7 +151,7 @@ public class OrayaCameraManager : MonoBehaviour
 
         var input = camera.GetComponent<CinemachineInputAxisController>();
         if (input != null)
-            input.enabled = live && !cinematicLocked;
+            input.enabled = live && !cinematicLocked && !OrayaMovement.GameplaySuspended;
     }
 
     void SetFirstPersonMeshesVisible(bool visible)

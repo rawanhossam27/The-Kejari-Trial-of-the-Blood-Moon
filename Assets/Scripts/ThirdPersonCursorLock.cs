@@ -22,8 +22,12 @@ public class ThirdPersonCursorLock : MonoBehaviour
     void Update()
     {
 #if ENABLE_INPUT_SYSTEM
+        if (OrayaMovement.GameplaySuspended)
+            return;
+
         Keyboard keyboard = Keyboard.current;
-        if (keyboard != null && keyboard.escapeKey.wasPressedThisFrame)
+        // Level 2 pause owns Escape. Other scenes still use it only to release the cursor.
+        if (keyboard != null && keyboard.escapeKey.wasPressedThisFrame && !LevelPauseMenu.OwnsEscape)
             SetLocked(false);
 
         Mouse mouse = Mouse.current;
