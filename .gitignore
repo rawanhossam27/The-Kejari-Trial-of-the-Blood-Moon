@@ -47,3 +47,6 @@ Thumbs.db
 sysinfo.txt
 # Local Cursor configuration
 .cursor/
+
+# Development screenshots
+Assets/Screenshots/
