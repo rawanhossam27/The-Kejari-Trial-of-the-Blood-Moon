@@ -78,6 +78,21 @@ public class SceneTransitionController : MonoBehaviour
     }
 
     /// <summary>
+    /// Stops a fade so a direct scene load cannot leave the overlay stuck.
+    /// </summary>
+    public void Cancel()
+    {
+        if (running != null)
+        {
+            StopCoroutine(running);
+            running = null;
+        }
+
+        IsTransitioning = false;
+        SetReveal(1f, 0f);
+    }
+
+    /// <summary>
     /// <paramref name="eyeOpen"/> 0 is shut and 1 is fully open.
     /// <paramref name="veil"/> is extra darkness over the open gap, used for the first soft glimpses.
     /// </summary>
